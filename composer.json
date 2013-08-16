@@ -1,0 +1,41 @@
+{
+    "name": "meritt/meritt-dic",
+    "description": "Base dependency injection containers",
+    "type": "project",
+    "license": "proprietary",
+    "authors": [
+        {
+            "name": "Luís Otávio Cobucci Oblonczyk",
+            "email": "luis@meritt.com.br"
+        }
+    ],
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://packages.meritt.com.br",
+            "options": {
+                "ssl": {
+                    "local_cert": "/opt/meritt/meritt.pem"
+                }
+            }
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0",
+        "meritt/gimme": "dev-develop",
+        "doctrine/orm": "*@stable"
+    },
+    "minimum-stability": "dev",
+    "require-dev": {
+        "phpunit/phpunit": "*@stable",
+        "squizlabs/php_codesniffer": "*@stable",
+        "pdepend/pdepend" : "*@stable",
+        "phpmd/phpmd" : "*@stable",
+        "phploc/phploc": "*",
+        "sebastian/phpcpd": "*",
+        "phpdocumentor/phpdocumentor": "*"
+    },
+    "autoload": {
+        "psr-0": { "Meritt": "src/" }
+    }
+}
