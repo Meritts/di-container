@@ -1,5 +1,5 @@
 {
-    "name": "meritt/meritt-dic",
+    "name": "meritt/di-container",
     "description": "Base dependency injection containers",
     "type": "project",
     "license": "proprietary",
