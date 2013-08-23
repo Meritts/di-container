@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "3fb1ffe0c19b352df5aef867f63d3bc2",
+    "hash": "2eced16657bd651a5d3a36c21cf6e6fa",
     "packages": [
         {
             "name": "dflydev/apache-mime-types",
@@ -2034,16 +2034,16 @@
         },
         {
             "name": "phpdocumentor/phpdocumentor",
-            "version": "dev-master",
+            "version": "v2.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpDocumentor/phpDocumentor2.git",
-                "reference": "0c660c212804e4a3348fd2325ebe265d541de6d0"
+                "reference": "v2.0.1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpDocumentor/phpDocumentor2/zipball/0c660c212804e4a3348fd2325ebe265d541de6d0",
-                "reference": "0c660c212804e4a3348fd2325ebe265d541de6d0",
+                "url": "https://api.github.com/repos/phpDocumentor/phpDocumentor2/zipball/v2.0.1",
+                "reference": "v2.0.1",
                 "shasum": ""
             },
             "require": {
@@ -2108,7 +2108,7 @@
                 "documentation",
                 "phpdoc"
             ],
-            "time": "2013-08-09 13:53:33"
+            "time": "2013-08-09 14:31:14"
         },
         {
             "name": "phpdocumentor/reflection",
@@ -2822,7 +2822,7 @@
         },
         {
             "name": "phpunit/php-timer",
-            "version": "dev-master",
+            "version": "1.0.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-timer.git",
@@ -3132,7 +3132,7 @@
         },
         {
             "name": "sebastian/finder-facade",
-            "version": "dev-master",
+            "version": "1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/finder-facade.git",
@@ -3217,35 +3217,32 @@
         },
         {
             "name": "sebastian/phpcpd",
-            "version": "dev-master",
+            "version": "1.4.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpcpd.git",
-                "reference": "9f736b3e09eefd0d434d5590e1e8c22bead1ae5d"
+                "reference": "1.4.3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpcpd/zipball/9f736b3e09eefd0d434d5590e1e8c22bead1ae5d",
-                "reference": "9f736b3e09eefd0d434d5590e1e8c22bead1ae5d",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpcpd/zipball/1.4.3",
+                "reference": "1.4.3",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.3",
-                "phpunit/php-timer": ">=1.0.4",
-                "sebastian/finder-facade": ">=1.1.0",
+                "phpunit/php-timer": ">=1.0.4,<1.1.0",
+                "sebastian/finder-facade": "~1.1",
                 "sebastian/version": ">=1.0.0",
-                "symfony/console": ">=2.2.0",
-                "theseer/fdomdocument": "~1.4"
+                "symfony/finder": ">=2.1.2",
+                "theseer/fdomdocument": "~1.4",
+                "zetacomponents/base": ">=1.8",
+                "zetacomponents/console-tools": ">=1.6"
             },
             "bin": [
                 "composer/bin/phpcpd"
             ],
             "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.0-dev"
-                }
-            },
             "autoload": {
                 "classmap": [
                     "src/"
@@ -3264,7 +3261,7 @@
             ],
             "description": "Copy/Paste Detector (CPD) for PHP code.",
             "homepage": "https://github.com/sebastianbergmann/phpcpd",
-            "time": "2013-08-13 06:26:31"
+            "time": "2013-07-30 14:37:42"
         },
         {
             "name": "sebastian/version",
@@ -4188,6 +4185,135 @@
                 "zf2"
             ],
             "time": "2013-08-21 17:16:25"
+        },
+        {
+            "name": "zetacomponents/base",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/zetacomponents/Base.git",
+                "reference": "642f63a8a72c32996f1aaf8a317fdf746bc32ce7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/zetacomponents/Base/zipball/642f63a8a72c32996f1aaf8a317fdf746bc32ce7",
+                "reference": "642f63a8a72c32996f1aaf8a317fdf746bc32ce7",
+                "shasum": ""
+            },
+            "require-dev": {
+                "zetacomponents/unit-test": "*"
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "src"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Sergey Alexeev"
+                },
+                {
+                    "name": "Sebastian Bergmann"
+                },
+                {
+                    "name": "Jan Borsodi"
+                },
+                {
+                    "name": "Raymond Bosman"
+                },
+                {
+                    "name": "Frederik Holljen"
+                },
+                {
+                    "name": "Kore Nordmann"
+                },
+                {
+                    "name": "Derick Rethans"
+                },
+                {
+                    "name": "Vadym Savchuk"
+                },
+                {
+                    "name": "Tobias Schlitt"
+                },
+                {
+                    "name": "Alexandru Stanoi"
+                }
+            ],
+            "description": "The Base package provides the basic infrastructure that all packages rely on. Therefore every component relies on this package.",
+            "homepage": "https://github.com/zetacomponents",
+            "time": "2012-05-21 11:21:36"
+        },
+        {
+            "name": "zetacomponents/console-tools",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/zetacomponents/ConsoleTools.git",
+                "reference": "90156abef01e4215fda8b9740f77c322f126fb02"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/zetacomponents/ConsoleTools/zipball/90156abef01e4215fda8b9740f77c322f126fb02",
+                "reference": "90156abef01e4215fda8b9740f77c322f126fb02",
+                "shasum": ""
+            },
+            "require": {
+                "zetacomponents/base": "*"
+            },
+            "require-dev": {
+                "zetacomponents/unit-test": "*"
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "src"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Sergey Alexeev"
+                },
+                {
+                    "name": "Sebastian Bergmann"
+                },
+                {
+                    "name": "Jan Borsodi"
+                },
+                {
+                    "name": "Raymond Bosman"
+                },
+                {
+                    "name": "Frederik Holljen"
+                },
+                {
+                    "name": "Kore Nordmann"
+                },
+                {
+                    "name": "Derick Rethans"
+                },
+                {
+                    "name": "Vadym Savchuk"
+                },
+                {
+                    "name": "Tobias Schlitt"
+                },
+                {
+                    "name": "Alexandru Stanoi"
+                }
+            ],
+            "description": "A set of classes to do different actions with the console (also called shell). It can render a progress bar, tables and a status bar and contains a class for parsing command line options.",
+            "homepage": "https://github.com/zetacomponents",
+            "time": "2012-05-21 09:55:34"
         }
     ],
     "aliases": [
@@ -4201,7 +4327,9 @@
         "phpunit/phpunit": 0,
         "squizlabs/php_codesniffer": 0,
         "pdepend/pdepend": 0,
-        "phpmd/phpmd": 0
+        "phpmd/phpmd": 0,
+        "sebastian/phpcpd": 0,
+        "phpdocumentor/phpdocumentor": 0
     },
     "platform": {
         "php": ">=5.4.0"
