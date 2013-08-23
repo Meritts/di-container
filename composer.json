@@ -23,7 +23,8 @@
     "require": {
         "php": ">=5.4.0",
         "meritt/gimme": "dev-develop",
-        "doctrine/orm": "*@stable"
+        "doctrine/orm": "*@stable",
+        "lcobucci/action-mapper": "*@dev"
     },
     "minimum-stability": "dev",
     "require-dev": {

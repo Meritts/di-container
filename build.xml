@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="Gimme" default="build">
+
+    <property name="application.dir" value="${project.basedir}/src"/>
+    <property name="bin.dir" value="${project.basedir}/vendor/bin"/>
+    <property name="build.dir" value="${project.basedir}/build"/>
+    <property name="composer.bin" value="/usr/local/bin/composer"/>
+
+    <target name="prepare">
+        <echo msg="Cleaning the room..."/>
+
+        <if>
+            <available file="${build.dir}" type="dir" property="aaa" />
+            <then>
+                <delete dir="${build.dir}/coverage" includeemptydirs="true"/>
+                <delete dir="${build.dir}/logs" includeemptydirs="true"/>
+                <delete dir="${build.dir}/pdepend" includeemptydirs="true"/>
+            </then>
+            <else>
+                <mkdir dir="${build.dir}" mode="0777"/>
+                <mkdir dir="${build.dir}/api" mode="0777"/>
+            </else>
+        </if>
+
+        <mkdir dir="${build.dir}/coverage" mode="0777"/>
+        <mkdir dir="${build.dir}/logs" mode="0777"/>
+        <mkdir dir="${build.dir}/pdepend" mode="0777"/>
+    </target>
+
+    <target name="update-deps">
+        <composer command="install" composer="${composer.bin}">
+            <arg value="--dev" />
+        </composer>
+
+        <if>
+            <available file="${project.basedir}/data" type="dir" property="aaa" />
+            <then>
+                <phingcall target="move-templates" />
+                <delete dir="${project.basedir}/data" includeemptydirs="true" />
+            </then>
+        </if>
+    </target>
+
+    <target name="move-templates">
+        <if>
+            <available file="${project.basedir}/data/templates/abstract" type="dir" property="aaa" />
+            <then>
+                <move file="${project.basedir}/data/templates/abstract" tofile="${project.basedir}/vendor/phpdocumentor/phpdocumentor/data/templates/abstract" />
+            </then>
+        </if>
+
+        <if>
+            <available file="${project.basedir}/data/templates/checkstyle" type="dir" property="aaa" />
+            <then>
+                <move file="${project.basedir}/data/templates/checkstyle" tofile="${project.basedir}/vendor/phpdocumentor/phpdocumentor/data/templates/checkstyle" />
+            </then>
+        </if>
+
+        <if>
+            <available file="${project.basedir}/data/templates/new-black" type="dir" property="aaa" />
+            <then>
+                <move file="${project.basedir}/data/templates/new-black" tofile="${project.basedir}/vendor/phpdocumentor/phpdocumentor/data/templates/new-black" />
+            </then>
+        </if>
+
+        <if>
+            <available file="${project.basedir}/data/templates/old-ocean" type="dir" property="aaa" />
+            <then>
+                <move file="${project.basedir}/data/templates/old-ocean" tofile="${project.basedir}/vendor/phpdocumentor/phpdocumentor/data/templates/old-ocean" />
+            </then>
+        </if>
+
+        <if>
+            <available file="${project.basedir}/data/templates/responsive" type="dir" property="aaa" />
+            <then>
+                <move file="${project.basedir}/data/templates/responsive" tofile="${project.basedir}/vendor/phpdocumentor/phpdocumentor/data/templates/responsive" />
+            </then>
+        </if>
+
+        <if>
+            <available file="${project.basedir}/data/templates/responsive-twig" type="dir" property="aaa" />
+            <then>
+                <move file="${project.basedir}/data/templates/responsive-twig" tofile="${project.basedir}/vendor/phpdocumentor/phpdocumentor/data/templates/responsive-twig" />
+            </then>
+        </if>
+
+        <if>
+            <available file="${project.basedir}/data/templates/zend" type="dir" property="aaa" />
+            <then>
+                <move file="${project.basedir}/data/templates/zend" tofile="${project.basedir}/vendor/phpdocumentor/phpdocumentor/data/templates/zend" />
+            </then>
+        </if>
+    </target>
+
+    <target name="build">
+        <echo msg="Initializing build..."/>
+
+        <phingcall target="qatools"/>
+    </target>
+
+    <target name="build-ci" depends="prepare, update-deps">
+        <echo msg="Initializing build..."/>
+
+        <phingcall target="qatools-ci"/>
+        <phingcall target="doc"/>
+    </target>
+
+    <target name="qatools">
+        <phingcall target="syntax"/>
+        <phingcall target="test"/>
+        <phingcall target="code-sniffer"/>
+        <phingcall target="mess-detector"/>
+    </target>
+
+    <target name="qatools-ci">
+        <phingcall target="syntax"/>
+        <phingcall target="test-ci"/>
+        <phingcall target="loc-ci"/>
+        <phingcall target="metrics-ci"/>
+        <phingcall target="copy-paste-detector-ci"/>
+        <phingcall target="code-sniffer-ci"/>
+        <phingcall target="mess-detector-ci"/>
+    </target>
+
+    <target name="test-ci">
+        <echo msg="Executing PHPUnit"/>
+
+        <exec executable="${bin.dir}/phpunit" passthru="true">
+            <arg value="-c"/>
+            <arg file="${project.basedir}/phpunit.xml.dist"/>
+        </exec>
+    </target>
+
+    <target name="test">
+        <echo msg="Executing PHPUnit"/>
+
+        <exec executable="${bin.dir}/phpunit" passthru="true">
+            <arg value="-c"/>
+            <arg file="${project.basedir}/phpunit.xml"/>
+        </exec>
+    </target>
+
+    <target name="loc-ci">
+        <echo msg="Executing PHPLoc"/>
+
+        <exec executable="${bin.dir}/phploc">
+            <arg value="--log-csv"/>
+            <arg value="${build.dir}/logs/phploc.csv"/>
+            <arg value="--count-tests"/>
+            <arg value="--exclude"/>
+            <arg value="vendor"/>
+            <arg path="${project.basedir}"/>
+        </exec>
+    </target>
+
+    <target name="mess-detector">
+        <echo msg="Executing PHPMD"/>
+
+        <exec executable="${bin.dir}/phpmd" passthru="true">
+            <arg path="${application.dir}"/>
+            <arg value="text"/>
+            <arg value="codesize,controversial,design,unusedcode"/>
+        </exec>
+    </target>
+
+    <target name="metrics-ci">
+        <echo msg="Executing PDepend"/>
+
+        <exec executable="${bin.dir}/pdepend">
+            <arg value="--jdepend-xml=${build.dir}/logs/jdepend.xml"/>
+            <arg value="--jdepend-chart=${build.dir}/pdepend/dependencies.svg"/>
+            <arg value="--overview-pyramid=${build.dir}/pdepend/overview-pyramid.svg"/>
+            <arg path="${application.dir}"/>
+        </exec>
+    </target>
+
+    <target name="mess-detector-ci">
+        <echo msg="Executing PHPMD"/>
+
+        <exec executable="${bin.dir}/phpmd">
+            <arg path="${application.dir}"/>
+            <arg value="xml"/>
+            <arg value="codesize,controversial,design,unusedcode"/>
+            <arg value="--reportfile"/>
+            <arg value="${build.dir}/logs/pmd.xml"/>
+        </exec>
+    </target>
+
+    <target name="copy-paste-detector-ci">
+        <echo msg="Executing PHPCPD"/>
+
+        <exec executable="${bin.dir}/phpcpd">
+            <arg value="--log-pmd"/>
+            <arg value="${build.dir}/logs/pmd-cpd.xml"/>
+            <arg value="--exclude"/>
+            <arg path="vendor"/>
+            <arg path="${application.dir}"/>
+        </exec>
+    </target>
+
+    <target name="code-sniffer-ci">
+        <echo msg="Executing PHPCS"/>
+
+        <exec executable="${bin.dir}/phpcs">
+            <arg value="--report=checkstyle"/>
+            <arg value="--report-file=${build.dir}/logs/checkstyle.xml"/>
+            <arg value="--standard=PSR2"/>
+            <arg path="${application.dir}"/>
+        </exec>
+    </target>
+
+    <target name="code-sniffer">
+        <echo msg="Executing PHPCS"/>
+
+        <exec executable="${bin.dir}/phpcs" passthru="true">
+            <arg value="--standard=PSR2"/>
+            <arg path="${application.dir}"/>
+        </exec>
+    </target>
+
+    <target name="syntax">
+        <echo msg="Executing PHP Lint"/>
+
+        <phplint>
+            <fileset dir="${application.dir}">
+                <include name="**/*.php"/>
+            </fileset>
+        </phplint>
+    </target>
+
+    <target name="doc">
+        <echo msg="Executing PHP Documentor"/>
+        <exec executable="vendor/bin/phpdoc.php"/>
+    </target>
+</project>

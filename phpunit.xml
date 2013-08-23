@@ -1,0 +1,18 @@
+<phpunit backupGlobals="true"
+         backupStaticAttributes="false"
+         colors="true"
+         convertErrorsToExceptions="true"
+         convertNoticesToExceptions="true"
+         convertWarningsToExceptions="true"
+         processIsolation="false"
+         syntaxCheck="false"
+         bootstrap="vendor/autoload.php"
+         verbose="true"
+         strict="false">
+
+    <testsuites>
+        <testsuite name="DI Container Test Suite">
+            <directory>test/Meritt/DependencyInjection</directory>
+        </testsuite>
+    </testsuites>
+</phpunit>
