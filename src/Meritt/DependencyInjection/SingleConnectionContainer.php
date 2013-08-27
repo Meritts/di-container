@@ -9,18 +9,18 @@
 
 namespace Meritt\DependencyInjection;
 
-use Lcobucci\ActionMapper2\DependencyInjection\Container;
-use Doctrine\ORM\Mapping\Driver\AnnotationDriver;
 use Doctrine\Common\Annotations\AnnotationReader;
 use Doctrine\Common\Annotations\CachedReader;
-use Doctrine\Common\Cache\MemcachedCache;
-use Meritt\Gimme\Parser\ArrayParser;
 use Doctrine\Common\Cache\ApcCache;
+use Doctrine\Common\Cache\ArrayCache;
 use Doctrine\Common\Cache\Cache;
-use Meritt\Gimme\PackageManager;
-use Doctrine\ORM\EntityManager;
+use Doctrine\Common\Cache\MemcachedCache;
 use Doctrine\ORM\Configuration;
-use Assetic\Cache\ArrayCache;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\Mapping\Driver\AnnotationDriver;
+use Lcobucci\ActionMapper2\DependencyInjection\Container;
+use Meritt\Gimme\PackageManager;
+use Meritt\Gimme\Parser\ArrayParser;
 use Memcached;
 
 /**
@@ -62,7 +62,7 @@ class SingleConnectionContainer extends Container
             $cache->setNamespace($this->getParameter('cache.prefix'));
         }
 
-        $this->services['cache.internal'] = $cache;
+        return $this->services['cache.internal'] = $cache;
     }
 
     /**
@@ -76,7 +76,7 @@ class SingleConnectionContainer extends Container
             $cache->setNamespace($this->getParameter('cache.prefix'));
         }
 
-        $this->services['cache.shared'] = $cache;
+        return $this->services['cache.shared'] = $cache;
     }
 
     /**
