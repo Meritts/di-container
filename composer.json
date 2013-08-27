@@ -34,7 +34,7 @@
         "phpmd/phpmd" : "*@stable",
         "phploc/phploc": "*",
         "sebastian/phpcpd": "*@stable",
-        "phpdocumentor/phpdocumentor": "*@stable"
+        "phpdocumentor/phpdocumentor": "*"
     },
     "autoload": {
         "psr-0": { "Meritt": "src/" }
