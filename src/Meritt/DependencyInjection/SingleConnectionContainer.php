@@ -13,7 +13,7 @@ use Doctrine\Common\Annotations\AnnotationReader;
 use Doctrine\Common\Annotations\CachedReader;
 use Doctrine\Common\Cache\ApcCache;
 use Doctrine\Common\Cache\ArrayCache;
-use Doctrine\Common\Cache\Cache;
+use Doctrine\Common\Cache\CacheProvider;
 use Doctrine\Common\Cache\MemcachedCache;
 use Doctrine\ORM\Configuration;
 use Doctrine\ORM\EntityManager;
@@ -52,7 +52,7 @@ class SingleConnectionContainer extends Container
     }
 
     /**
-     * @return Cache
+     * @return CacheProvider
      */
     protected function getCache_InternalService()
     {
@@ -66,7 +66,7 @@ class SingleConnectionContainer extends Container
     }
 
     /**
-     * @return Cache
+     * @return CacheProvider
      */
     protected function getCache_SharedService()
     {
@@ -80,7 +80,7 @@ class SingleConnectionContainer extends Container
     }
 
     /**
-     * @return Cache
+     * @return CacheProvider
      */
     protected function createSharedCache()
     {
