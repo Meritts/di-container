@@ -112,7 +112,7 @@ class SingleConnectionContainer extends Container
                 'dbname' => $this->getParameter('db.schema'),
                 'user' => $this->getParam('db.user', ini_get('mysqli.default_user')),
                 'password' => $this->getParam('db.passwd', ini_get('mysqli.default_pw')),
-                'driver' => $this->getParam('db.passwd', 'pdo_mysql'),
+                'driver' => $this->getParam('db.driver', 'pdo_mysql'),
                 'charset' => 'UTF-8'
             ],
             $this->get('doctrine.config')
