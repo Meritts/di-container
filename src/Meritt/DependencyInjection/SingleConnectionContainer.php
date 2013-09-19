@@ -10,6 +10,7 @@
 namespace Meritt\DependencyInjection;
 
 use Doctrine\Common\Annotations\AnnotationReader;
+use Doctrine\Common\Annotations\AnnotationRegistry;
 use Doctrine\Common\Annotations\CachedReader;
 use Doctrine\Common\Cache\ApcCache;
 use Doctrine\Common\Cache\ArrayCache;
@@ -124,6 +125,10 @@ class SingleConnectionContainer extends Container
      */
     protected function getDoctrine_ConfigService()
     {
+        AnnotationRegistry::registerFile(
+            $this->getDir('vendor/doctrine/orm/lib/Doctrine/ORM/Mapping/Driver/DoctrineAnnotations.php')
+        );
+
         $this->services['doctrine.config'] = $instance = new Configuration();
 
         $instance->setMetadataCacheImpl($this->get('cache.internal'));
