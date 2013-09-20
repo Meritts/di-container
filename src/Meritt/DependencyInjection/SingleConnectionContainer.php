@@ -85,6 +85,10 @@ class SingleConnectionContainer extends Container
      */
     protected function createSharedCache()
     {
+        if (php_sapi_name() == 'cli') {
+            return new ArrayCache();
+        }
+
         if ($this->isDevelopment()) {
             return new ApcCache();
         }
