@@ -12,33 +12,20 @@ namespace Meritt\DependencyInjection;
 use Doctrine\Common\Annotations\AnnotationReader;
 use Doctrine\Common\Annotations\AnnotationRegistry;
 use Doctrine\Common\Annotations\CachedReader;
-use Doctrine\Common\Cache\ApcCache;
-use Doctrine\Common\Cache\ArrayCache;
 use Doctrine\Common\Cache\CacheProvider;
-use Doctrine\Common\Cache\MemcachedCache;
 use Doctrine\ORM\Configuration;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Mapping\Driver\AnnotationDriver;
-use Lcobucci\ActionMapper2\DependencyInjection\Container;
 use Meritt\Gimme\PackageManager;
 use Meritt\Gimme\Parser\ArrayParser;
-use Memcached;
 
 /**
  * Class SingleConnectionContainer
  *
  * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
  */
-class SingleConnectionContainer extends Container
+class SingleConnectionContainer extends BaseContainer
 {
-    /**
-     * @return bool
-     */
-    public function isDevelopment()
-    {
-        return $this->getParameter('environment') == 'dev';
-    }
-
     /**
      * @return PackageManager
      */
@@ -50,60 +37,6 @@ class SingleConnectionContainer extends Container
             include $this->getDir($this->getParameter('gimme.config')),
             $this->get('cache.shared')
         );
-    }
-
-    /**
-     * @return CacheProvider
-     */
-    protected function getCache_InternalService()
-    {
-        $cache = $this->isDevelopment() ? new ArrayCache() : new ApcCache();
-
-        if ($this->hasParameter('cache.prefix')) {
-            $cache->setNamespace($this->getParameter('cache.prefix'));
-        }
-
-        return $this->services['cache.internal'] = $cache;
-    }
-
-    /**
-     * @return CacheProvider
-     */
-    protected function getCache_SharedService()
-    {
-        $cache = $this->createSharedCache();
-
-        if ($this->hasParameter('cache.prefix')) {
-            $cache->setNamespace($this->getParameter('cache.prefix'));
-        }
-
-        return $this->services['cache.shared'] = $cache;
-    }
-
-    /**
-     * @return CacheProvider
-     */
-    protected function createSharedCache()
-    {
-        if (php_sapi_name() == 'cli') {
-            return new ArrayCache();
-        }
-
-        if ($this->isDevelopment()) {
-            return new ApcCache();
-        }
-
-        $driver = new Memcached();
-        $driver->addServer(
-            $this->getParam('memcache.host', 'localhost'),
-            $this->getParam('memcache.port', 11211),
-            $this->getParam('memcache.weight', 1)
-        );
-
-        $cache = new MemcachedCache();
-        $cache->setMemcached($driver);
-
-        return $cache;
     }
 
     /**
@@ -133,19 +66,16 @@ class SingleConnectionContainer extends Container
             $this->getDir('vendor/doctrine/orm/lib/Doctrine/ORM/Mapping/Driver/DoctrineAnnotations.php')
         );
 
-        $this->services['doctrine.config'] = $instance = new Configuration();
+        $this->services['doctrine.config'] = $configuration = new Configuration();
 
-        $instance->setMetadataCacheImpl($this->get('cache.internal'));
-        $instance->setQueryCacheImpl($this->get('cache.shared'));
-        $instance->setResultCacheImpl($this->get('cache.shared'));
-        $instance->setProxyDir($this->getDir($this->getParameter('orm.proxy.dir')));
-        $instance->setProxyNamespace($this->getParameter('orm.proxy.namespace'));
+        $configuration->setMetadataCacheImpl($this->get('cache.internal'));
+        $configuration->setQueryCacheImpl($this->get('cache.shared'));
+        $configuration->setResultCacheImpl($this->get('cache.shared'));
+        $configuration->setProxyDir($this->getDir($this->getParameter('orm.proxy.dir')));
+        $configuration->setProxyNamespace($this->getParameter('orm.proxy.namespace'));
+        $configuration->setAutoGenerateProxyClasses($this->isDevelopment());
 
-        $instance->setAutoGenerateProxyClasses(
-            $this->getParameter('environment') == 'dev'
-        );
-
-        $instance->setMetadataDriverImpl(
+        $configuration->setMetadataDriverImpl(
             new AnnotationDriver(
                 new CachedReader(
                     new AnnotationReader(),
@@ -155,43 +85,6 @@ class SingleConnectionContainer extends Container
             )
         );
 
-        return $instance;
-    }
-
-    /**
-     * Returns the project root based on script filename
-     *
-     * @return string
-     */
-    protected function getBaseDir()
-    {
-        return $this->getParam('app.basedir') . '/';
-    }
-
-    /**
-     * Returns the given parameter if exists, else returns the default value
-     *
-     * @param string $name
-     * @param mixed $default
-     * @return mixed
-     */
-    protected function getParam($name, $default = null)
-    {
-        if ($this->hasParameter($name)) {
-            return $this->getParameter($name);
-        }
-
-        return $default;
-    }
-
-    /**
-     * Concatenate the given directory to base dir
-     *
-     * @param string $dir
-     * @return string
-     */
-    protected function getDir($dir)
-    {
-        return $this->getBaseDir() . $dir;
+        return $configuration;
     }
 }
