@@ -62,7 +62,7 @@ class SingleConnectionContainer extends BaseContainer
      */
     protected function getDoctrine_ConnectionService()
     {
-        return $this->get('doctrine.em')->getConnection();
+        return $this->services['doctrine.connection'] = $this->get('doctrine.em')->getConnection();
     }
 
     /**
