@@ -12,7 +12,7 @@ namespace Meritt\DependencyInjection;
 use Doctrine\Common\Annotations\AnnotationReader;
 use Doctrine\Common\Annotations\AnnotationRegistry;
 use Doctrine\Common\Annotations\CachedReader;
-use Doctrine\Common\Cache\CacheProvider;
+use Doctrine\DBAL\Connection;
 use Doctrine\ORM\Configuration;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Mapping\Driver\AnnotationDriver;
@@ -58,7 +58,15 @@ class SingleConnectionContainer extends BaseContainer
     }
 
     /**
-     * @return \Doctrine\ORM\Configuration
+     * @return Connection
+     */
+    protected function getDoctrine_ConnectionService()
+    {
+        return $this->get('doctrine.em')->getConnection();
+    }
+
+    /**
+     * @return Configuration
      */
     protected function getDoctrine_ConfigService()
     {
