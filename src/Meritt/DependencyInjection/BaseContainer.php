@@ -67,12 +67,8 @@ abstract class BaseContainer extends Container
      */
     protected function createSharedCache()
     {
-        if (php_sapi_name() == 'cli') {
-            return new ArrayCache();
-        }
-
         if ($this->isDevelopment()) {
-            return new ApcCache();
+            return php_sapi_name() == 'cli' ? new ArrayCache() : new ApcCache();
         }
 
         $driver = new Memcached();
