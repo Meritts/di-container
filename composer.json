@@ -24,7 +24,9 @@
         "php": ">=5.4.0",
         "meritt/gimme": "dev-develop",
         "doctrine/orm": "*@stable",
-        "lcobucci/action-mapper": "*@dev"
+        "lcobucci/action-mapper": "*@dev",
+        "monolog/monolog": "~1.7",
+        "raven/raven": "~0.8"
     },
     "minimum-stability": "dev",
     "require-dev": {

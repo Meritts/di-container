@@ -15,6 +15,9 @@ use Doctrine\Common\Cache\CacheProvider;
 use Doctrine\Common\Cache\MemcachedCache;
 use Lcobucci\ActionMapper2\DependencyInjection\Container;
 use Memcached;
+use Monolog\Logger;
+use Monolog\Handler\RavenHandler;
+use Raven_Client;
 
 /**
  * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
@@ -41,6 +44,25 @@ abstract class BaseContainer extends Container
         $this->configureCacheNamespace($cache);
 
         return $this->services['cache.shared'] = $cache;
+    }
+
+    /**
+     * @return Logger
+     */
+    protected function getApp_LoggerService()
+    {
+        $logger = new Logger('app');
+        $config = $this->getParameter('sentry.config');
+
+        if (!empty($config['uri'])) {
+            $client = new Raven_Client(
+                sprintf('http://%s:%s@%s', $config['user'], $config['passwd'], $config['uri'])
+            );
+
+            $logger->pushHandler(new RavenHandler($client));
+        }
+
+        return $this->services['app.logger'] = $logger;
     }
 
     protected function configureCacheNamespace(CacheProvider $cache)
