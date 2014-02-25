@@ -17,6 +17,7 @@ use Lcobucci\ActionMapper2\DependencyInjection\Container;
 use Memcached;
 use Monolog\Logger;
 use Monolog\Handler\RavenHandler;
+use Monolog\Processor\PsrLogMessageProcessor;
 use Raven_Client;
 
 /**
@@ -51,7 +52,7 @@ abstract class BaseContainer extends Container
      */
     protected function getApp_LoggerService()
     {
-        $logger = new Logger('app');
+        $logger = new Logger('app', [], [new PsrLogMessageProcessor()]);
         $config = $this->getParameter('sentry.config');
 
         if (!empty($config['uri'])) {
@@ -59,7 +60,7 @@ abstract class BaseContainer extends Container
                 sprintf('http://%s:%s@%s', $config['user'], $config['passwd'], $config['uri'])
             );
 
-            $logger->pushHandler(new RavenHandler($client));
+            $logger->pushHandler(new RavenHandler($client, Logger::NOTICE));
         }
 
         return $this->services['app.logger'] = $logger;
