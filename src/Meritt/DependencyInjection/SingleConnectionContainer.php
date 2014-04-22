@@ -76,7 +76,7 @@ class SingleConnectionContainer extends BaseContainer
 
         $this->services['doctrine.config'] = $configuration = new Configuration();
 
-        $configuration->setMetadataCacheImpl($this->get('cache.internal'));
+        $configuration->setMetadataCacheImpl($this->get('cache.shared'));
         $configuration->setQueryCacheImpl($this->get('cache.shared'));
         $configuration->setResultCacheImpl($this->get('cache.shared'));
         $configuration->setProxyDir($this->getDir($this->getParameter('orm.proxy.dir')));
