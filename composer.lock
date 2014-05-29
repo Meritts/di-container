@@ -1,7 +1,8 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
+        "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "This file is @generated automatically"
     ],
     "hash": "a5f4b6ff32b3b01d8e3902317f132b74",
     "packages": [
@@ -679,16 +680,16 @@
         },
         {
             "name": "lcobucci/action-mapper",
-            "version": "dev-master",
+            "version": "1.0.0-alpha12",
             "source": {
                 "type": "git",
                 "url": "https://github.com/lcobucci/action-mapper.git",
-                "reference": "68a6a28d6799c6483a41744eb5e7e6de551abbb1"
+                "reference": "614651a95b8e313fcfac2e45471be77b8df523f2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lcobucci/action-mapper/zipball/68a6a28d6799c6483a41744eb5e7e6de551abbb1",
-                "reference": "68a6a28d6799c6483a41744eb5e7e6de551abbb1",
+                "url": "https://api.github.com/repos/lcobucci/action-mapper/zipball/614651a95b8e313fcfac2e45471be77b8df523f2",
+                "reference": "614651a95b8e313fcfac2e45471be77b8df523f2",
                 "shasum": ""
             },
             "require": {
@@ -727,7 +728,7 @@
             "keywords": [
                 "front-controller"
             ],
-            "time": "2014-01-27 12:27:02"
+            "time": "2014-01-27 12:24:11"
         },
         {
             "name": "lcobucci/di-builder",
@@ -735,21 +736,22 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/lcobucci/di-builder.git",
-                "reference": "1cb484f74451ad9af4360fea94db6b3fde4c87e1"
+                "reference": "731c23401bc4b6b94bf9ee89311df064800b47a6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lcobucci/di-builder/zipball/1cb484f74451ad9af4360fea94db6b3fde4c87e1",
-                "reference": "1cb484f74451ad9af4360fea94db6b3fde4c87e1",
+                "url": "https://api.github.com/repos/lcobucci/di-builder/zipball/731c23401bc4b6b94bf9ee89311df064800b47a6",
+                "reference": "731c23401bc4b6b94bf9ee89311df064800b47a6",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3",
-                "symfony/config": ">=2.2.0@stable",
-                "symfony/dependency-injection": ">=2.2.0@stable"
+                "symfony/config": "~2.4",
+                "symfony/dependency-injection": "~2.4"
             },
             "require-dev": {
-                "mikey179/vfsstream": ">=1.2.0@stable"
+                "mikey179/vfsstream": "~1.2",
+                "phpunit/phpunit": "~4.1"
             },
             "type": "library",
             "autoload": {
@@ -773,7 +775,7 @@
             "keywords": [
                 "dependency-injection"
             ],
-            "time": "2013-08-23 15:04:45"
+            "time": "2014-05-27 16:20:49"
         },
         {
             "name": "meritt/assetic",
