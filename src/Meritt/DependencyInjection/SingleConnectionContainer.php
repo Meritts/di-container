@@ -83,13 +83,25 @@ class SingleConnectionContainer extends BaseContainer
         $configuration->setProxyNamespace($this->getParameter('orm.proxy.namespace'));
         $configuration->setAutoGenerateProxyClasses($this->isDevelopment());
 
+        $entityDir = $this->getParameter('orm.entity.dir');
+        if (is_array($entityDir)) {
+            $paths = [];
+            foreach ($entityDir as $dir) {
+                $paths[] = $this->getDir($dir);
+            }
+        } else {
+            $paths = [ $this->getDir($entityDir) ];
+        }
+        unset($entityDir);
+        unset($dir);
+
         $configuration->setMetadataDriverImpl(
             new AnnotationDriver(
                 new CachedReader(
                     new AnnotationReader(),
                     $this->get('cache.internal')
                 ),
-                (array) $this->getDir($this->getParameter('orm.entity.dir'))
+                $paths
             )
         );
 
